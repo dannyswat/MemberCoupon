@@ -25,6 +25,8 @@ namespace MemberCoupon.Pages
 
         public string ErrorMessage { get; set; }
 
+        public Organization Setting { get; set; }
+
         public IActionResult OnGet(string id, string secureCode)
         {
             DateTime now = Constants.CurrentTime();
@@ -36,6 +38,7 @@ namespace MemberCoupon.Pages
             MemberId = member.Number;
             SecureCode = member.SecureKey;
             Coupons = context.Coupons.Where(e => e.ShowStart <= now && e.ShowEnd >= now).Include(e => e.Redemptions.Where(r => r.MemberId == member.Id)).OrderBy(e => e.Name).ToList();
+            Setting = context.Organizations.FirstOrDefault();
 
             return Page();
         }

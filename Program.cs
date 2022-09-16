@@ -55,6 +55,17 @@ namespace MemberCoupon
                     }, 
                     "PleaseChange");
                 }
+
+                var org = dbContext.Organizations.FirstOrDefault();
+                if (org == null)
+                {
+                    dbContext.Organizations.Add(new Organization
+                    {
+                        Name = "Smiling Association",
+                        PageHeader = "# Header"
+                    });
+                    dbContext.SaveChanges();
+                }
             }
 
             // Configure the HTTP request pipeline.

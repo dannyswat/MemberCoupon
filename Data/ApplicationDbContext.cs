@@ -17,6 +17,8 @@ namespace MemberCoupon.Data
 
         public DbSet<Redemption> Redemptions { get; set; }
 
+        public DbSet<Organization> Organizations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

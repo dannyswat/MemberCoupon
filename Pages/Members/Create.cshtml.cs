@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MemberCoupon.Data;
 using MemberCoupon.Models;
+using System.Security.Cryptography;
 
 namespace MemberCoupon.Pages.Members
 {
@@ -26,14 +27,20 @@ namespace MemberCoupon.Pages.Members
 
         [BindProperty]
         public Member Member { get; set; }
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            if (Member.SecureKey == "auto")
+            {
+                byte[] keyBytes = RandomNumberGenerator.GetBytes(8);
+                Member.SecureKey = BitConverter.ToString(keyBytes).Replace("-", "").ToLower();
             }
 
             _context.Members.Add(Member);

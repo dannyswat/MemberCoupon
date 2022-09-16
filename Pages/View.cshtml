@@ -2,9 +2,9 @@
 @model MemberCoupon.Pages.ViewModel
 @{
     Layout = "_PublicLayout";
-    ViewBag.Title = "換領";
+    ViewBag.Title = Model.Setting.Name;
 }
-<h1>Welcome</h1>
+@Html.Raw(Markdig.Markdown.ToHtml(Model.Setting.PageHeader))
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p class="text-danger">@Model.ErrorMessage</p>

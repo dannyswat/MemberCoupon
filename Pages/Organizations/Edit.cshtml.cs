@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MemberCoupon.Data;
 using MemberCoupon.Models;
-using System.Security.Cryptography;
 
-namespace MemberCoupon.Pages.Members
+namespace MemberCoupon.Pages.Organizations
 {
     public class EditModel : PageModel
     {
@@ -22,21 +21,16 @@ namespace MemberCoupon.Pages.Members
         }
 
         [BindProperty]
-        public Member Member { get; set; } = default!;
+        public Organization Organization { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (id == null || _context.Members == null)
+            var organization =  await _context.Organizations.FirstOrDefaultAsync();
+            if (organization == null)
             {
                 return NotFound();
             }
-
-            var member =  await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
-            {
-                return NotFound();
-            }
-            Member = member;
+            Organization = organization;
             return Page();
         }
 
@@ -49,13 +43,7 @@ namespace MemberCoupon.Pages.Members
                 return Page();
             }
 
-            if (Member.SecureKey == "auto")
-            {
-                byte[] keyBytes = RandomNumberGenerator.GetBytes(8);
-                Member.SecureKey = BitConverter.ToString(keyBytes).Replace("-", "").ToLower();
-            }
-
-            _context.Attach(Member).State = EntityState.Modified;
+            _context.Attach(Organization).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +51,7 @@ namespace MemberCoupon.Pages.Members
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MemberExists(Member.Id))
+                if (!OrganizationExists(Organization.Id))
                 {
                     return NotFound();
                 }
@@ -73,12 +61,12 @@ namespace MemberCoupon.Pages.Members
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Details");
         }
 
-        private bool MemberExists(int id)
+        private bool OrganizationExists(int id)
         {
-          return _context.Members.Any(e => e.Id == id);
+          return _context.Organizations.Any(e => e.Id == id);
         }
     }
 }
