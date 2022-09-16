@@ -1,0 +1,59 @@
+﻿@page
+@model MemberCoupon.Pages.Coupons.CreateModel
+
+@{
+    ViewData["Title"] = "新增";
+}
+
+<h1>新增</h1>
+
+<h4>換領券</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Coupon.Name" class="control-label"></label>
+                <input asp-for="Coupon.Name" class="form-control" />
+                <span asp-validation-for="Coupon.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Coupon.Description" class="control-label"></label>
+                <textarea asp-for="Coupon.Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Coupon.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Coupon.ShowStart" class="control-label"></label>
+                <input asp-for="Coupon.ShowStart" class="form-control" />
+                <span asp-validation-for="Coupon.ShowStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Coupon.ShowEnd" class="control-label"></label>
+                <input asp-for="Coupon.ShowEnd" class="form-control" />
+                <span asp-validation-for="Coupon.ShowEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Coupon.Cancelled" /> @Html.DisplayNameFor(model => model.Coupon.Cancelled)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Coupon.CancelReason" class="control-label"></label>
+                <input asp-for="Coupon.CancelReason" class="form-control" />
+                <span asp-validation-for="Coupon.CancelReason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">返回列表</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

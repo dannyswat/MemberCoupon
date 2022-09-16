@@ -1,0 +1,61 @@
+﻿@page
+@model MemberCoupon.Pages.Coupons.IndexModel
+
+@{
+    ViewData["Title"] = "換領券";
+}
+
+<h1>換領券</h1>
+
+<p>
+    <a asp-page="Create">新增</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Coupon[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coupon[0].ShowStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coupon[0].ShowEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coupon[0].Cancelled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coupon[0].CancelReason)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Coupon)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cancelled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CancelReason)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">編輯</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">紀錄</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">刪除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

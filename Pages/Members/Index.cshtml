@@ -1,0 +1,62 @@
+﻿@page
+@model MemberCoupon.Pages.Members.IndexModel
+
+@{
+    ViewData["Title"] = "會員";
+}
+
+<h1>會員</h1>
+
+<p>
+    <a asp-page="Create">新增</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.ItemList.Items[0].Number)
+            </th>
+            <th style="width:30%">
+                @Html.DisplayNameFor(model => model.ItemList.Items[0].SecureKey)
+            </th>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.ItemList.Items[0].ActiveUntil)
+            </th>
+            <th style="width:auto"></th>
+        </tr>
+        <tr>
+            <td>
+                <input class="form-control" type="text" data-search="Number" />
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ItemList.Items)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecureKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActiveUntil)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">編輯</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">紀錄</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">刪除</a> |
+                <a href="@($"/View/{item.Number}/{item.SecureKey}")" target="_blank">連結</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@(await Html.RenderComponentAsync<Pager>(RenderMode.Static, new { PageModel = Model.ItemList }))

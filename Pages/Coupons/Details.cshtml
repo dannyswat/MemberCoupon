@@ -1,0 +1,55 @@
+﻿@page
+@model MemberCoupon.Pages.Coupons.DetailsModel
+
+@{
+    ViewData["Title"] = "紀錄";
+}
+
+<h1>紀錄</h1>
+
+<div>
+    <h4>換領券</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Coupon.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Coupon.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Coupon.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.Raw(Markdig.Markdown.ToHtml(Model.Coupon.Description))
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Coupon.ShowStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Coupon.ShowStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Coupon.ShowEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Coupon.ShowEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Coupon.Cancelled)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Coupon.Cancelled)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Coupon.CancelReason)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Coupon.CancelReason)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Coupon?.Id">Edit</a> |
+    <a asp-page="./Index">返回列表</a>
+</div>

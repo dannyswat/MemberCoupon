@@ -1,0 +1,26 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+#coupons { background-color:#eaeaea; padding:5px; }
+
+.coupon { background-color:#fff; padding:5px; border-radius:10px; }
+
+.actions { text-align:right; }
+
+.redeemed { color:#15d51b; font-weight:bold; }
