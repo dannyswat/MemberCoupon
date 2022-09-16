@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Members\" />
     <Folder Include="Pages\Coupons\" />
     <Folder Include="Pages\Organizations\" />
   </ItemGroup>

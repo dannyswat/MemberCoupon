@@ -1,0 +1,38 @@
+﻿@page
+@model MemberCoupon.Pages.Members.PrintModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zh-hk">
+<head>
+    <title>Print</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+        body { margin:0; padding:0; }
+        .container { padding:20px; display:flex; flex-wrap:wrap; }
+        .box { width: 200px; box-sizing:border-box; padding:10px; }
+        .qr img { width:100%; }
+        .desc { text-align:center; font-weight:bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @foreach (var member in Model.Members)
+        {
+            <div class="box">
+                <div class="qr" data-url="/View/@member.Number/@member.SecureKey"></div>
+                <div class="desc">會員 @member.Number</div>
+            </div>
+        }
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+            $('.qr').each(function () {
+            $(this).data('img', new QRCode($(this).get(0), window.location.protocol + window.location.host + $(this).data('url')))
+            });
+            ;
+    </script>
+</body>
+</html>
