@@ -2,6 +2,7 @@ using MemberCoupon.Common;
 using MemberCoupon.Data;
 using MemberCoupon.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace MemberCoupon
@@ -13,9 +14,10 @@ namespace MemberCoupon
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            var sqliteConnStr = builder.Configuration.GetConnectionString("SqliteConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlite(sqliteConnStr));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddScoped<MemberService>();
 
