@@ -84,6 +84,7 @@ namespace MemberCoupon.Pages.Members
                         return RedirectToPage("./Print");
 
                 case "Disable":
+                case "Reset":
                     if (memberNos.Length == 0 && !MemberGroupId.HasValue)
                     {
                         ModelState.AddModelError(nameof(Numbers), "請輸入會員編號或選擇會員組別");
@@ -101,15 +102,28 @@ namespace MemberCoupon.Pages.Members
                         if (member == null)
                             throw new InvalidOperationException($"Member does not exist {memberNo}");
 
-                        member.ActiveUntil = now.AddMinutes(-1);
+                        if (Action == "Disable")
+                            member.ActiveUntil = now.AddMinutes(-1);
+                        else
+                        {
+                            byte[] keyBytes = RandomNumberGenerator.GetBytes(8);
+                            member.SecureKey = BitConverter.ToString(keyBytes).Replace("-", "").ToLower();
+                        }
                     }
 
                     if (MemberGroupId.HasValue)
                     {
-                        var members = context.Members.Where(e => 
-                            e.MemberGroupId == MemberGroupId.Value && 
+                        var members = context.Members.Where(e =>
+                            e.MemberGroupId == MemberGroupId.Value &&
                             (!e.ActiveUntil.HasValue || e.ActiveUntil.Value > now)).ToList();
-                        foreach (var member in members) member.ActiveUntil = now.AddMinutes(-1);
+                        foreach (var member in members)
+                            if (Action == "Disable")
+                                member.ActiveUntil = now.AddMinutes(-1);
+                            else
+                            {
+                                byte[] keyBytes = RandomNumberGenerator.GetBytes(8);
+                                member.SecureKey = BitConverter.ToString(keyBytes).Replace("-", "").ToLower();
+                            }
                     }
                     await context.SaveChangesAsync();
 
