@@ -41,6 +41,9 @@ namespace MemberCoupon.Pages
                     e.ShowStart <= now && e.ShowEnd >= now 
                     && (!e.ExclusiveMemberGroupId.HasValue || e.ExclusiveMemberGroupId == member.MemberGroupId))
                 .Include(e => e.Redemptions.Where(r => r.MemberId == member.Id)).OrderBy(e => e.Name).ToList();
+
+            Coupons = Coupons.OrderBy(e => e.Redemptions?.Count ?? 0).ToList();
+
             Setting = context.Organizations.FirstOrDefault();
 
             return Page();
