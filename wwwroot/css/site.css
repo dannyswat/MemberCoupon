@@ -26,3 +26,16 @@ img { max-width:100%; }
 .actions { text-align:right; }
 
 .redeemed { color:#15d51b; font-weight:bold; }
+
+#redemptionCount { font-weight:bold; color: #15d51b; }
+
+.btn-primary { background-color:#087671; border-color:#087671; color:#fff; }
+.btn-primary:hover { background-color:#087671; border-color:#087671; color:#fff; }
+
+    .btn-check:active + .btn-primary, .btn-check:checked + .btn-primary, .btn-primary.active, .btn-primary:active, .show > .btn-primary.dropdown-toggle {
+        background-color:#15996e; border-color:#15996e; color:#fff; box-shadow: 0 0 0 0.25rem rgb(102 213 150 / 50%);
+    }
+
+    .btn-check:focus + .btn-primary, .btn-primary:focus {
+        background-color:#15996e; border-color:#15996e; color:#fff; box-shadow: 0 0 0 0.25rem rgb(102 213 150 / 50%);
+    }

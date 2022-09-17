@@ -1,9 +1,44 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @model IndexModel
 @{
     ViewData["Title"] = "首頁";
 }
 
 <div class="text-center">
-    <p></p>
+    <ul class="nav flex-column">
+        <li class="nav-item border">
+            <a class="nav-link">今日換領數: <span id="redemptionCount">0</span></a>
+        </li>
+        <li class="nav-item border border-top-0">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Members/Index">會員</a>
+        </li>
+        <li class="nav-item border border-top-0">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Coupons/Index">換領券</a>
+        </li>
+        <li class="nav-item border border-top-0">
+            <a class="nav-link text-dark" asp-area="" asp-page="/MemberGroups/Index">會員組別</a>
+        </li>
+        <li class="nav-item border border-top-0">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Organizations/Details">設定</a>
+        </li>
+        @if (!SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item border border-top-0">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">登入</a>
+            </li>
+        }
+    </ul>
 </div>
+
+@section Scripts {
+        <script type="text/javascript">
+        $(function () {
+            $.ajax('Index?handler=RedemptionCount').done(function (data) {
+                console.log(data);
+                $('#redemptionCount').text(data.count.toString());
+            });
+        })    
+        </script>
+    }
