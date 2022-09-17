@@ -1,4 +1,5 @@
-﻿using MemberCoupon.Data;
+﻿using MemberCoupon.Common;
+using MemberCoupon.Data;
 using MemberCoupon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace MemberCoupon.Pages.Members
 {
@@ -20,13 +22,16 @@ namespace MemberCoupon.Pages.Members
 
         [BindProperty]
         [DisplayName("會員編號")]
-        [Required]
         public string Numbers { get; set; }
 
         [BindProperty]
         [DisplayName("動作")]
         [Required]
         public string Action { get; set; }
+
+        [BindProperty]
+        [DisplayName("會員組別")]
+        public int? MemberGroupId { get; set; }
 
         public IActionResult OnGet()
         {
@@ -42,17 +47,23 @@ namespace MemberCoupon.Pages.Members
                 return Page();
             }
 
-            string[] memberNos = Numbers.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            string[] memberNos = (Numbers ?? "").Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
             switch (this.Action)
             {
                 case "Add":
+                    if (memberNos.Length == 0)
+                    {
+                        ModelState.AddModelError(nameof(Numbers), "請輸入會員編號");
+                        return Page();
+                    }
 
                     foreach (var memberNo in memberNos)
                     {
                         var member = new Member
                         {
-                            Number = memberNo
+                            Number = memberNo,
+                            MemberGroupId = MemberGroupId
                         };
 
                         byte[] keyBytes = RandomNumberGenerator.GetBytes(8);
@@ -65,9 +76,21 @@ namespace MemberCoupon.Pages.Members
 
                     break;
                 case "Print":
-                    return Redirect("/Members/Print?members=" + string.Join(",", memberNos));
+                    if (memberNos.Length > 0)
+                        return Redirect("/Members/Print?members=" + string.Join(",", memberNos));
+                    else if (MemberGroupId.HasValue)
+                        return Redirect("/Members/Print?Filters=" + JsonSerializer.Serialize(new ListItemsFilter[] { new ListItemsFilter { Property = nameof(Member.MemberGroupId), Value = MemberGroupId.Value } }));
+                    else
+                        return RedirectToPage("./Print");
 
                 case "Disable":
+                    if (memberNos.Length == 0 && !MemberGroupId.HasValue)
+                    {
+                        ModelState.AddModelError(nameof(Numbers), "請輸入會員編號或選擇會員組別");
+                        return Page();
+                    }
+
+                    var now = Constants.CurrentTime();
 
                     foreach (var memberNo in memberNos)
                     {
@@ -78,9 +101,16 @@ namespace MemberCoupon.Pages.Members
                         if (member == null)
                             throw new InvalidOperationException($"Member does not exist {memberNo}");
 
-                        member.ActiveUntil = Constants.CurrentTime().AddMinutes(-1);
+                        member.ActiveUntil = now.AddMinutes(-1);
                     }
 
+                    if (MemberGroupId.HasValue)
+                    {
+                        var members = context.Members.Where(e => 
+                            e.MemberGroupId == MemberGroupId.Value && 
+                            (!e.ActiveUntil.HasValue || e.ActiveUntil.Value > now)).ToList();
+                        foreach (var member in members) member.ActiveUntil = now.AddMinutes(-1);
+                    }
                     await context.SaveChangesAsync();
 
                     break;

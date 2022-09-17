@@ -1,0 +1,36 @@
+﻿@page
+@model MemberCoupon.Pages.MemberGroups.IndexModel
+<h1>會員組別</h1>
+<p>
+    <a asp-page="Create">新增</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberGroup[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberGroup[0].IsDisabled)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.MemberGroup) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDisabled)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">編輯</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">紀錄</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">刪除</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

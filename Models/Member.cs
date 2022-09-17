@@ -18,6 +18,11 @@ namespace MemberCoupon.Models
         [DisplayName("有效期至")]
         public DateTime? ActiveUntil { get; set; }
 
+        [DisplayName("會員組別")]
+        public int? MemberGroupId { get; set; }
+
+        public MemberGroup MemberGroup { get; set; }
+
         public ICollection<Redemption> Redemptions { get; set; }
     }
 }

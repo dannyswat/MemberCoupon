@@ -1,5 +1,6 @@
 ﻿using MemberCoupon.Data;
 using MemberCoupon.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MemberCoupon.Common
 {
@@ -11,6 +12,8 @@ namespace MemberCoupon.Common
 
         public override void Filter(ref IQueryable<Member> qry, IEnumerable<ListItemsFilter> filters)
         {
+            qry = qry.Include(e => e.MemberGroup);
+
             if (filters == null) return;
 
             foreach (var filter in filters)
@@ -19,6 +22,9 @@ namespace MemberCoupon.Common
                 {
                     case nameof(Member.Number):
                         qry = qry.Where(e => e.Number.Contains(filter.Value.ToString()));
+                        break;
+                    case nameof(Member.MemberGroupId):
+                        qry = qry.Where(e => e.MemberGroupId == int.Parse(filter.Value.ToString()));
                         break;
                 }
             }

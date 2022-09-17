@@ -29,7 +29,7 @@ namespace MemberCoupon.Pages.Coupons
                 return NotFound();
             }
 
-            var coupon = await _context.Coupons.FirstOrDefaultAsync(m => m.Id == id);
+            var coupon = await _context.Coupons.Include(e => e.ExclusiveMemberGroup).FirstOrDefaultAsync(m => m.Id == id);
 
             if (coupon == null)
             {
@@ -48,7 +48,7 @@ namespace MemberCoupon.Pages.Coupons
             {
                 return NotFound();
             }
-            var coupon = await _context.Coupons.FindAsync(id);
+            var coupon = await _context.Coupons.Include(e => e.ExclusiveMemberGroup).FirstOrDefaultAsync(m => m.Id == id);
 
             if (coupon != null)
             {

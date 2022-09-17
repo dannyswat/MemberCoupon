@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MemberCoupon.Data;
 using MemberCoupon.Models;
 
-namespace MemberCoupon.Pages.Members
+namespace MemberCoupon.Pages.MemberGroups
 {
     public class DetailsModel : PageModel
     {
@@ -19,23 +19,23 @@ namespace MemberCoupon.Pages.Members
             _context = context;
         }
 
-      public Member Member { get; set; }
+      public MemberGroup MemberGroup { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Members == null)
+            if (id == null || _context.MemberGroups == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Members.Include(e => e.MemberGroup).FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
+            var membergroup = await _context.MemberGroups.FirstOrDefaultAsync(m => m.Id == id);
+            if (membergroup == null)
             {
                 return NotFound();
             }
             else 
             {
-                Member = member;
+                MemberGroup = membergroup;
             }
             return Page();
         }

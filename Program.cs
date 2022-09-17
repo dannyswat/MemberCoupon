@@ -20,7 +20,7 @@ namespace MemberCoupon
                 options.UseSqlite(sqliteConnStr));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddScoped<MemberService>();
-
+            builder.Services.AddScoped<SelectLists>();
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;

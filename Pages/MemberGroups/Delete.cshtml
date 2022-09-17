@@ -1,0 +1,33 @@
+﻿@page
+@model MemberCoupon.Pages.MemberGroups.DeleteModel
+@{
+    ViewData["Title"] = "刪除";
+}
+
+<h1>刪除</h1>
+
+<h3>你是否確認要刪除紀錄？刪除紀錄將無法復原。</h3>
+<div>
+    <h4>會員組別</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MemberGroup.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MemberGroup.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MemberGroup.IsDisabled)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MemberGroup.IsDisabled)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="MemberGroup.Id" />
+        <input type="submit" value="刪除" class="btn btn-danger" /> |
+        <a asp-page="./Index">返回列表</a>
+    </form>
+</div>

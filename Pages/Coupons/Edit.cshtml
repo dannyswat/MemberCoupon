@@ -25,6 +25,11 @@
                 <span asp-validation-for="Coupon.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Coupon.ExclusiveMemberGroupId" class="control-label"></label>
+                <select asp-for="Coupon.ExclusiveMemberGroupId" class="form-control" asp-items="SelectLists.MemberGroupList().Nullable()"></select>
+                <span asp-validation-for="Coupon.ExclusiveMemberGroupId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Coupon.ShowStart" class="control-label"></label>
                 <input asp-for="Coupon.ShowStart" class="form-control" />
                 <span asp-validation-for="Coupon.ShowStart" class="text-danger"></span>
@@ -51,7 +56,7 @@
     </div>
 </div>
 
-<div>
+<div class="mt-2">
     <a asp-page="./Index">返回列表</a>
 </div>
 

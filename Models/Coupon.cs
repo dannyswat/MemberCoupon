@@ -21,6 +21,11 @@ namespace MemberCoupon.Models
         [DisplayName("結束顯示時間")]
         public DateTime ShowEnd { get; set; }
 
+        [DisplayName("只限會員組別")]
+        public int? ExclusiveMemberGroupId { get; set; }
+
+        public MemberGroup ExclusiveMemberGroup { get; set; }
+
         [DisplayName("取消")]
         public bool Cancelled { get; set; }
 

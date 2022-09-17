@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MemberCoupon.Data;
 using MemberCoupon.Models;
 
-namespace MemberCoupon.Pages.Members
+namespace MemberCoupon.Pages.MemberGroups
 {
     public class DeleteModel : PageModel
     {
@@ -20,40 +20,40 @@ namespace MemberCoupon.Pages.Members
         }
 
         [BindProperty]
-      public Member Member { get; set; }
+      public MemberGroup MemberGroup { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Members == null)
+            if (id == null || _context.MemberGroups == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Members.Include(e => e.MemberGroup).FirstOrDefaultAsync(m => m.Id == id);
+            var membergroup = await _context.MemberGroups.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (member == null)
+            if (membergroup == null)
             {
                 return NotFound();
             }
             else 
             {
-                Member = member;
+                MemberGroup = membergroup;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Members == null)
+            if (id == null || _context.MemberGroups == null)
             {
                 return NotFound();
             }
-            var member = await _context.Members.Include(e => e.MemberGroup).FirstOrDefaultAsync(m => m.Id == id);
+            var membergroup = await _context.MemberGroups.FindAsync(id);
 
-            if (member != null)
+            if (membergroup != null)
             {
-                Member = member;
-                _context.Members.Remove(Member);
+                MemberGroup = membergroup;
+                _context.MemberGroups.Remove(MemberGroup);
                 await _context.SaveChangesAsync();
             }
 

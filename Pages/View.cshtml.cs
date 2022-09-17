@@ -37,7 +37,10 @@ namespace MemberCoupon.Pages
 
             MemberId = member.Number;
             SecureCode = member.SecureKey;
-            Coupons = context.Coupons.Where(e => e.ShowStart <= now && e.ShowEnd >= now).Include(e => e.Redemptions.Where(r => r.MemberId == member.Id)).OrderBy(e => e.Name).ToList();
+            Coupons = context.Coupons.Where(e => 
+                    e.ShowStart <= now && e.ShowEnd >= now 
+                    && (!e.ExclusiveMemberGroupId.HasValue || e.ExclusiveMemberGroupId == member.MemberGroupId))
+                .Include(e => e.Redemptions.Where(r => r.MemberId == member.Id)).OrderBy(e => e.Name).ToList();
             Setting = context.Organizations.FirstOrDefault();
 
             return Page();
@@ -48,7 +51,10 @@ namespace MemberCoupon.Pages
             DateTime now = Constants.CurrentTime();
 
             var member = context.Members.FirstOrDefault(e => e.Number == id && e.SecureKey == secureCode);
-            if (member == null || (member.ActiveUntil.HasValue && member.ActiveUntil.Value.Date < now.Date))
+            var couponRow = context.Coupons.FirstOrDefault(e => e.Id == coupon);
+            if (member == null || couponRow == null || couponRow.Cancelled
+                || (member.ActiveUntil.HasValue && member.ActiveUntil.Value.Date < now.Date)
+                || (couponRow.ExclusiveMemberGroupId.HasValue && couponRow.ExclusiveMemberGroupId != member.MemberGroupId))
                 return RedirectToPage("./Error");
 
             var redemption = context.Redemptions.FirstOrDefault(e => e.MemberId == member.Id && e.CouponId == coupon);

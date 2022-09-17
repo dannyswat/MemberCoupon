@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MemberCoupon.Data;
 using MemberCoupon.Models;
-using System.Security.Cryptography;
 
-namespace MemberCoupon.Pages.Members
+namespace MemberCoupon.Pages.MemberGroups
 {
     public class EditModel : PageModel
     {
@@ -22,21 +21,21 @@ namespace MemberCoupon.Pages.Members
         }
 
         [BindProperty]
-        public Member Member { get; set; } = default!;
+        public MemberGroup MemberGroup { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Members == null)
+            if (id == null || _context.MemberGroups == null)
             {
                 return NotFound();
             }
 
-            var member =  await _context.Members.Include(e => e.MemberGroup).FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
+            var membergroup =  await _context.MemberGroups.FirstOrDefaultAsync(m => m.Id == id);
+            if (membergroup == null)
             {
                 return NotFound();
             }
-            Member = member;
+            MemberGroup = membergroup;
             return Page();
         }
 
@@ -49,13 +48,7 @@ namespace MemberCoupon.Pages.Members
                 return Page();
             }
 
-            if (Member.SecureKey == "auto")
-            {
-                byte[] keyBytes = RandomNumberGenerator.GetBytes(8);
-                Member.SecureKey = BitConverter.ToString(keyBytes).Replace("-", "").ToLower();
-            }
-
-            _context.Attach(Member).State = EntityState.Modified;
+            _context.Attach(MemberGroup).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +56,7 @@ namespace MemberCoupon.Pages.Members
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MemberExists(Member.Id))
+                if (!MemberGroupExists(MemberGroup.Id))
                 {
                     return NotFound();
                 }
@@ -76,9 +69,9 @@ namespace MemberCoupon.Pages.Members
             return RedirectToPage("./Index");
         }
 
-        private bool MemberExists(int id)
+        private bool MemberGroupExists(int id)
         {
-          return _context.Members.Any(e => e.Id == id);
+          return _context.MemberGroups.Any(e => e.Id == id);
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MemberCoupon.Data;
 using MemberCoupon.Models;
 
-namespace MemberCoupon.Pages.Coupons
+namespace MemberCoupon.Pages.MemberGroups
 {
     public class IndexModel : PageModel
     {
@@ -19,13 +19,13 @@ namespace MemberCoupon.Pages.Coupons
             _context = context;
         }
 
-        public IList<Coupon> Coupon { get;set; } = default!;
+        public IList<MemberGroup> MemberGroup { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Coupons != null)
+            if (_context.MemberGroups != null)
             {
-                Coupon = await _context.Coupons.Include(e => e.ExclusiveMemberGroup).OrderByDescending(e => e.Id).Take(50).ToListAsync();
+                MemberGroup = await _context.MemberGroups.ToListAsync();
             }
         }
     }

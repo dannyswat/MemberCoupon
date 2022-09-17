@@ -14,7 +14,6 @@ namespace MemberCoupon.Common
         public Task<List<TEntity>> ListAsync(ListItemsModel listModel)
         {
             IQueryable<TEntity> qry = _context.Set<TEntity>();
-
             Filter(ref qry, listModel?.Filters);
             Sort(ref qry, listModel?.Sort);
             Page(ref qry, listModel);

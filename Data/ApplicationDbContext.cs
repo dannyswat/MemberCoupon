@@ -19,6 +19,8 @@ namespace MemberCoupon.Data
 
         public DbSet<Organization> Organizations { get; set; }
 
+        public DbSet<MemberGroup> MemberGroups { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -35,6 +37,18 @@ namespace MemberCoupon.Data
                 .HasOne(e => e.Coupon)
                 .WithMany(e => e.Redemptions)
                 .HasForeignKey(e => e.CouponId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Member>()
+                .HasOne(e => e.MemberGroup)
+                .WithMany()
+                .HasForeignKey(e => e.MemberGroupId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Coupon>()
+                .HasOne(e => e.ExclusiveMemberGroup)
+                .WithMany()
+                .HasForeignKey(e => e.ExclusiveMemberGroupId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
