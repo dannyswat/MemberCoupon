@@ -64,7 +64,7 @@ namespace MemberCoupon.Pages
 
             if (redemption != null)
             {
-                ErrorMessage = "此換領券已換領";
+                ErrorMessage = "此換領券已使用";
                 return OnGet(id, secureCode);
             }
 

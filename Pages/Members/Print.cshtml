@@ -29,10 +29,14 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript">
-            $('.qr').each(function () {
-            $(this).data('img', new QRCode($(this).get(0), window.location.protocol + window.location.host + $(this).data('url')))
+            $('.qr').each(function (index) {
+                setTimeout(function (jq) {
+                    jq.data('img', new QRCode(
+                        jq.get(0), 
+                        window.location.protocol + window.location.host + jq.data('url')
+                    ));
+                }, index * 200, $(this));
             });
-            ;
     </script>
 </body>
 </html>
