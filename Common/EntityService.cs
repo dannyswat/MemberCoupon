@@ -31,7 +31,7 @@ namespace MemberCoupon.Common
             return qry.CountAsync();
         }
 
-        protected virtual void Page(ref IQueryable<TEntity> qry, ListItemsModel pager)
+        public virtual void Page(ref IQueryable<TEntity> qry, ListItemsModel pager)
         {
             if (pager == null) return;
 
@@ -39,12 +39,12 @@ namespace MemberCoupon.Common
                 .Take(pager.PageSize);
         }
 
-        protected virtual void Filter(ref IQueryable<TEntity> qry, IEnumerable<ListItemsFilter> filters)
+        public virtual void Filter(ref IQueryable<TEntity> qry, IEnumerable<ListItemsFilter> filters)
         {
             if (filters == null) return;
         }
 
-        protected virtual void Sort(ref IQueryable<TEntity> qry, string sort)
+        public virtual void Sort(ref IQueryable<TEntity> qry, string sort)
         {
         }
     }

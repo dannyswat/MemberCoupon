@@ -8,7 +8,7 @@
 <h1>會員</h1>
 
 <p>
-    <a asp-page="Create" class="btn btn-primary">新增</a> <a asp-page="Print" class="btn btn-secondary" target="_blank">打印 QR Code</a>
+    <a asp-page="Create" class="btn btn-primary">新增</a> <a asp-page="Batch" class="btn btn-primary">批量</a> <a asp-page="Print" class="btn btn-secondary printLink" target="_blank">打印 QR Code</a>
 </p>
 <table class="table">
     <thead>
@@ -60,3 +60,17 @@
     </tbody>
 </table>
 @(await Html.RenderComponentAsync<Pager>(RenderMode.Static, new { PageModel = Model.ItemList }))
+@section Scripts {
+<script type="text/javascript">
+        $(function () {
+            var filter = getQueryFromUrl('Filters');
+            console.log(filter);
+            if (filter) {
+                $('.printLink').each(function () {
+                    $(this).attr('href', replaceUrlQuery($(this).attr('href'), 'Filters', filter));
+                })
+            }
+        });
+        
+</script>
+}

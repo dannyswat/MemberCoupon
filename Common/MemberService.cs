@@ -9,7 +9,7 @@ namespace MemberCoupon.Common
         {
         }
 
-        protected override void Filter(ref IQueryable<Member> qry, IEnumerable<ListItemsFilter> filters)
+        public override void Filter(ref IQueryable<Member> qry, IEnumerable<ListItemsFilter> filters)
         {
             if (filters == null) return;
 
