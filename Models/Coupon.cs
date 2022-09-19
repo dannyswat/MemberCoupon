@@ -33,6 +33,12 @@ namespace MemberCoupon.Models
         [DisplayName("取消原因")]
         public string CancelReason { get; set; }
 
+        [DisplayName("限量")]
+        public int? Quota { get; set; }
+
+        [DisplayName("已換領")]
+        public int RedeemedCount { get; set; } = 0;
+
         public ICollection<Redemption> Redemptions { get; set; }
     }
 }

@@ -27,7 +27,12 @@ img { max-width:100%; }
 
 .redeemed { color:#15d51b; font-weight:bold; }
 
-#redemptionCount { font-weight:bold; color: #15d51b; }
+.outOfStock { color:#ef2d2d; font-weight:bold; }
+
+#redemptionCount {
+    font-weight: bold;
+    color: #15d51b;
+}
 
 .btn-primary { background-color:#087671; border-color:#087671; color:#fff; }
 .btn-primary:hover { background-color:#087671; border-color:#087671; color:#fff; }

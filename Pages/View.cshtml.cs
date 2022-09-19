@@ -42,7 +42,7 @@ namespace MemberCoupon.Pages
                     && (!e.ExclusiveMemberGroupId.HasValue || e.ExclusiveMemberGroupId == member.MemberGroupId))
                 .Include(e => e.Redemptions.Where(r => r.MemberId == member.Id)).OrderBy(e => e.Name).ToList();
 
-            Coupons = Coupons.OrderBy(e => e.Redemptions?.Count ?? 0).ToList();
+            Coupons = Coupons.OrderBy(e => e.Redemptions?.Count ?? 0).ThenBy(e => e.Quota.HasValue && e.Quota <= e.RedeemedCount ? 0 : 1).ToList();
 
             Setting = context.Organizations.FirstOrDefault();
 
@@ -60,6 +60,9 @@ namespace MemberCoupon.Pages
                 || (couponRow.ExclusiveMemberGroupId.HasValue && couponRow.ExclusiveMemberGroupId != member.MemberGroupId))
                 return RedirectToPage("./Error");
 
+            if (couponRow.Quota.HasValue && couponRow.Quota < couponRow.RedeemedCount)
+                return RedirectToPage("./Error");
+
             var redemption = context.Redemptions.FirstOrDefault(e => e.MemberId == member.Id && e.CouponId == coupon);
 
             if (redemption != null)
@@ -70,17 +73,27 @@ namespace MemberCoupon.Pages
 
             try
             {
+                context.Database.BeginTransaction();
+
+                int redeemedCount = context.Redemptions.Count(e => e.CouponId == coupon);
+                if (couponRow.Quota.HasValue && couponRow.Quota <= redeemedCount)
+                    throw new Exception("此換領券已換完");
+
                 context.Redemptions.Add(new Redemption
                 {
                     Date = now,
                     CouponId = coupon,
                     MemberId = member.Id
                 });
+                couponRow.RedeemedCount = redeemedCount + 1;
                 context.SaveChanges();
+
+                context.Database.CommitTransaction();
             }
             catch (Exception e)
             {
                 ErrorMessage = e.Message;
+                try { context.Database.RollbackTransaction(); } catch { }
                 return OnGet(id, secureCode);
             }
             return RedirectToPage("./View", new { id, secureCode });

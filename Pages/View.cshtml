@@ -24,7 +24,9 @@
                     {
                         <span class="redeemed">已換領</span>
                     }
-                    else {
+                    else if (coupon.Quota.HasValue && coupon.Quota.Value <= coupon.RedeemedCount) {
+                        <span class="outOfStock">已換完</span>
+                    } else {
                         <input type="submit" class="btn btn-primary" value="換領 (職員用)" onclick="return confirmRedemption()" />
                     }
                 </form>
