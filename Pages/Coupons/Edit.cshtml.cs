@@ -48,6 +48,7 @@ namespace MemberCoupon.Pages.Coupons
                 return Page();
             }
 
+            _context.Entry(Coupon).State = EntityState.Modified;
             Coupon.RedeemedCount = _context.Redemptions.Count(e => e.CouponId == Coupon.Id);
 
             try
