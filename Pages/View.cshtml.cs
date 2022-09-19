@@ -42,7 +42,7 @@ namespace MemberCoupon.Pages
                     && (!e.ExclusiveMemberGroupId.HasValue || e.ExclusiveMemberGroupId == member.MemberGroupId))
                 .Include(e => e.Redemptions.Where(r => r.MemberId == member.Id)).OrderBy(e => e.Name).ToList();
 
-            Coupons = Coupons.OrderBy(e => e.Redemptions?.Count ?? 0).ThenBy(e => e.Quota.HasValue && e.Quota <= e.RedeemedCount ? 0 : 1).ToList();
+            Coupons = Coupons.OrderBy(e => e.Redemptions?.Count ?? 0).ThenBy(e => e.Quota.HasValue && e.Quota <= e.RedeemedCount ? 1 : 0).ToList();
 
             Setting = context.Organizations.FirstOrDefault();
 
