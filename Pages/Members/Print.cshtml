@@ -21,7 +21,7 @@
         @foreach (var member in Model.Members)
         {
             <div class="box">
-                <div class="qr" data-url="/View/@member.Number/@member.SecureKey"></div>
+                <div class="qr" data-url="/View/@Html.UrlEncoder.Encode(member.Number)/@member.SecureKey"></div>
                 <div class="desc">會員 @member.Number</div>
             </div>
         }

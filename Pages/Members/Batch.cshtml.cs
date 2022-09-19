@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -77,7 +78,7 @@ namespace MemberCoupon.Pages.Members
                     break;
                 case "Print":
                     if (memberNos.Length > 0)
-                        return Redirect("/Members/Print?members=" + string.Join(",", memberNos));
+                        return Redirect("/Members/Print?members=" + WebUtility.UrlEncode(string.Join(",", memberNos)));
                     else if (MemberGroupId.HasValue)
                         return Redirect("/Members/Print?Filters=" + JsonSerializer.Serialize(new ListItemsFilter[] { new ListItemsFilter { Property = nameof(Member.MemberGroupId), Value = MemberGroupId.Value } }));
                     else

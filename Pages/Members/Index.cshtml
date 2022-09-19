@@ -54,7 +54,7 @@
                 <a asp-page="./Edit" asp-route-id="@item.Id">編輯</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">紀錄</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">刪除</a> |
-                <a href="@($"/View/{item.Number}/{item.SecureKey}")" target="_blank">連結</a>
+                <a href="@($"/View/{System.Net.WebUtility.UrlEncode(item.Number)}/{item.SecureKey}")" target="_blank">連結</a>
             </td>
         </tr>
 }
