@@ -48,7 +48,7 @@ namespace MemberCoupon.Pages.Coupons
                 return Page();
             }
 
-            _context.Attach(Coupon).State = EntityState.Modified;
+            Coupon.RedeemedCount = _context.Redemptions.Count(e => e.CouponId == Coupon.Id);
 
             try
             {
