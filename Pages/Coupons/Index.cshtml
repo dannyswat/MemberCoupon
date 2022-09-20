@@ -13,14 +13,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th style="width:20%">
+            <th style="width:30%">
                 @Html.DisplayNameFor(model => model.Coupon[0].Name)
             </th>
-            <th style="width:20%">
+            <th style="width:30%">
                 @Html.DisplayNameFor(model => model.Coupon[0].ShowStart)
-            </th>
-            <th style="width:20%">
-                @Html.DisplayNameFor(model => model.Coupon[0].ShowEnd)
             </th>
             <th style="width:10%">
                 @Html.DisplayNameFor(model => model.Coupon[0].ExclusiveMemberGroupId)
@@ -38,19 +35,14 @@
         @foreach (var item in Model.Coupon)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                <td colspan="2">
+                    <strong>@Html.DisplayFor(modelItem => item.Name)</strong><br />
+                    @Html.DisplayFor(modelItem => item.ShowStart) - @Html.DisplayFor(modelItem => item.ShowEnd)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShowStart)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShowEnd)
-                </td>
-                <td>
+                <td style="text-align:center">
                     @Html.DisplayFor(modelItem => item.ExclusiveMemberGroup.Name)
                 </td>
-                <td>@item.RedeemedCount@if (item.Quota.HasValue) {@("/")@item.Quota}</td>
+                <td style="text-align:center">@item.RedeemedCount@if (item.Quota.HasValue) {@("/")@item.Quota}</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cancelled)
                 </td>

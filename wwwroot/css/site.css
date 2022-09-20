@@ -19,6 +19,8 @@ body {
 
 img { max-width:100%; }
 
+table { table-layout: fixed; }
+
 #coupons { background-color:#eaeaea; padding:1px 5px; }
 
 .coupon { background-color:#fff; padding:5px; margin:5px 0; border-radius:10px; }
